@@ -4,7 +4,7 @@ MAINTAINER Marcos Tenrero <m.tenrero@alumnos.urjc.es>
 
 WORKDIR /tmp
 
-EXPOSE 8080
+EXPOSE 8443
 
 ADD target/mailerservice-0.0.1-SNAPSHOT.jar /tmp/app.jar
 ADD za.store /tmp/za.store
