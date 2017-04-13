@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,7 +28,7 @@ public class MailerServiceController {
 
 
     @Autowired
-    private MailSender mail;
+    private JavaMailSender mail;
 
     @RequestMapping(value = "/sendEmail", method = RequestMethod.POST)
     public ResponseEntity<MailerResponse> sendEmail(@RequestParam("email") String email,@RequestParam("subject") String subject, @RequestParam("body") String body) {
@@ -55,12 +56,13 @@ public class MailerServiceController {
     }
 
     public synchronized void buildEmailAndSend(String toAddress, String fromAddress, String subject, String msgBody) {
-        SimpleMailMessage Msg = new SimpleMailMessage();
-        Msg.setFrom(fromAddress);
-        Msg.setTo(toAddress);
-        Msg.setSubject(subject);
-        Msg.setText(msgBody);
-        mail.send();
+
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom(fromAddress);
+        message.setTo(toAddress);
+        message.setSubject(subject);
+        message.setText(msgBody);
+        mail.send(message);
     }
 
 
